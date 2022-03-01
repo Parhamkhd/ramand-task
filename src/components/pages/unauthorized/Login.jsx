@@ -1,11 +1,29 @@
+import { useState } from 'react'
 import { useForm, Controller } from "react-hook-form";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { postData } from '../../../http/postData'
+import toast, { Toaster } from 'react-hot-toast'
+
 const Login = ()=>{ 
-  const { handleSubmit, control, reset,formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const { handleSubmit, control, reset,setError,formState: { errors } } = useForm();
+  const onSubmit = (data) => {
+    postLogin(data);
+  };
+
+  async function  postLogin(data){
+    const res = await postData("https://reqres.in/api/login/",data);
+    if(res.error){
+      toast.error("username or password are incorrect")
+    }else{
+      toast.success("login successfull")
+    }
+    console.log(res,"this is res");
+  }
+
+
     return(
 <>
         <Box sx={{width:"500px",margin:"0 auto"}}>
@@ -42,7 +60,7 @@ const Login = ()=>{
         <TextField 
         sx={{display:"flex",marginTop:"20px"}}
         error={errors.password}
-
+        helperText={"namaste"}
          id="outlined-basic"
           label="User Name"
            variant="outlined"
@@ -54,7 +72,7 @@ const Login = ()=>{
   
       </Box>
     </form>
-
+    <Toaster/>
       </>
     )
 }

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Routes, Route, Link } from "react-router-dom";
@@ -5,6 +6,14 @@ import Login from './components/pages/unauthorized/Login'
 import Typography from '@mui/material/Typography';
 
 function App() {
+
+  const token = useSelector((state)=>{return state.user.token})
+
+  useEffect(() => {
+    console.log(token,"this is token");
+  }, [])
+  
+
   return (
    <>
       <Routes>
